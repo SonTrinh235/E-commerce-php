@@ -1,0 +1,571 @@
+[
+    {
+        "PRODUCTID": "P001",
+        "PRO_NAME": "T-Shirt",
+        "PRO_DESCRIPTION": "Comfort cotton t-shirt.",
+        "PRO_PRICE": 19.99,
+        "SELLERID": "S001",
+        "CAT_NAME": "Clothes",
+        "IMAGE": "/images/product_sample.jpg"
+
+    },
+    {
+        "PRODUCTID": "P002",
+        "PRO_NAME": "Sneakers",
+        "PRO_DESCRIPTION": "Comfortable sneakers for everyday wear.",
+        "PRO_PRICE": 49.99,
+        "SELLERID": "S002",
+        "CAT_NAME": "Shoes",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P003",
+        "PRO_NAME": "Headphones",
+        "PRO_DESCRIPTION": "Noise-cancelling headphones.",
+        "PRO_PRICE": 89.99,
+        "SELLERID": "S003",
+        "CAT_NAME": "Electronics",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P004",
+        "PRO_NAME": "Laptop",
+        "PRO_DESCRIPTION": "High-performance laptop for work.",
+        "PRO_PRICE": 899.99,
+        "SELLERID": "S003",
+        "CAT_NAME": "Electronics",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P005",
+        "PRO_NAME": "Coffee Maker",
+        "PRO_DESCRIPTION": "Drip coffee machine with 12-cup capacity.",
+        "PRO_PRICE": 59.99,
+        "SELLERID": "S004",
+        "CAT_NAME": "Home & Kitchen",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P006",
+        "PRO_NAME": "Running Shoes",
+        "PRO_DESCRIPTION": "Lightweight running shoes.",
+        "PRO_PRICE": 79.99,
+        "SELLERID": "S002",
+        "CAT_NAME": "Shoes",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P007",
+        "PRO_NAME": "Jeans",
+        "PRO_DESCRIPTION": "Classic blue denim jeans.",
+        "PRO_PRICE": 44.99,
+        "SELLERID": "S001",
+        "CAT_NAME": "Clothes",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P008",
+        "PRO_NAME": "Smartwatch",
+        "PRO_DESCRIPTION": "Fitness tracker and smartwatch.",
+        "PRO_PRICE": 129.99,
+        "SELLERID": "S003",
+        "CAT_NAME": "Electronics",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P009",
+        "PRO_NAME": "Backpack",
+        "PRO_DESCRIPTION": "Durable backpack for school or travel.",
+        "PRO_PRICE": 39.99,
+        "SELLERID": "S005",
+        "CAT_NAME": "Accessories",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P010",
+        "PRO_NAME": "Blender",
+        "PRO_DESCRIPTION": "High-speed blender for smoothies.",
+        "PRO_PRICE": 69.99,
+        "SELLERID": "S004",
+        "CAT_NAME": "Home & Kitchen",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P011",
+        "PRO_NAME": "Hoodie",
+        "PRO_DESCRIPTION": "Warm fleece hoodie.",
+        "PRO_PRICE": 29.99,
+        "SELLERID": "S001",
+        "CAT_NAME": "Clothes",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P012",
+        "PRO_NAME": "Wireless Mouse",
+        "PRO_DESCRIPTION": "Ergonomic wireless optical mouse.",
+        "PRO_PRICE": 24.99,
+        "SELLERID": "S003",
+        "CAT_NAME": "Electronics",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P013",
+        "PRO_NAME": "Yoga Mat",
+        "PRO_DESCRIPTION": "Non-slip yoga mat.",
+        "PRO_PRICE": 19.99,
+        "SELLERID": "S005",
+        "CAT_NAME": "Sports",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P014",
+        "PRO_NAME": "Desk Lamp",
+        "PRO_DESCRIPTION": "Modern LED desk lamp.",
+        "PRO_PRICE": 34.99,
+        "SELLERID": "S004",
+        "CAT_NAME": "Home & Kitchen",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P015",
+        "PRO_NAME": "Sandals",
+        "PRO_DESCRIPTION": "Comfortable leather sandals.",
+        "PRO_PRICE": 29.99,
+        "SELLERID": "S002",
+        "CAT_NAME": "Shoes",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P016",
+        "PRO_NAME": "Sci-Fi Novel",
+        "PRO_DESCRIPTION": "A best-selling science fiction book.",
+        "PRO_PRICE": 14.99,
+        "SELLERID": "S006",
+        "CAT_NAME": "Books",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P017",
+        "PRO_NAME": "Gaming Keyboard",
+        "PRO_DESCRIPTION": "Mechanical gaming keyboard with RGB.",
+        "PRO_PRICE": 99.99,
+        "SELLERID": "S003",
+        "CAT_NAME": "Electronics",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P018",
+        "PRO_NAME": "Jacket",
+        "PRO_DESCRIPTION": "Waterproof rain jacket.",
+        "PRO_PRICE": 59.99,
+        "SELLERID": "S001",
+        "CAT_NAME": "Clothes",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P019",
+        "PRO_NAME": "Dumbbells Set",
+        "PRO_DESCRIPTION": "Set of adjustable dumbbells.",
+        "PRO_PRICE": 129.99,
+        "SELLERID": "S005",
+        "CAT_NAME": "Sports",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P020",
+        "PRO_NAME": "Cookware Set",
+        "PRO_DESCRIPTION": "10-piece non-stick cookware set.",
+        "PRO_PRICE": 149.99,
+        "SELLERID": "S004",
+        "CAT_NAME": "Home & Kitchen",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P021",
+        "PRO_NAME": "Mystery Novel",
+        "PRO_DESCRIPTION": "A gripping mystery thriller.",
+        "PRO_PRICE": 12.99,
+        "SELLERID": "S006",
+        "CAT_NAME": "Books",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P022",
+        "PRO_NAME": "Bluetooth Speaker",
+        "PRO_DESCRIPTION": "Portable waterproof bluetooth speaker.",
+        "PRO_PRICE": 49.99,
+        "SELLERID": "S003",
+        "CAT_NAME": "Electronics",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P023",
+        "PRO_NAME": "Wallet",
+        "PRO_DESCRIPTION": "Men's leather wallet.",
+        "PRO_PRICE": 22.99,
+        "SELLERID": "S005",
+        "CAT_NAME": "Accessories",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P024",
+        "PRO_NAME": "Smartphone",
+        "PRO_DESCRIPTION": "Latest model smartphone with 5G.",
+        "PRO_PRICE": 699.99,
+        "SELLERID": "S003",
+        "CAT_NAME": "Electronics",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P025",
+        "PRO_NAME": "Dress",
+        "PRO_DESCRIPTION": "Women's summer floral dress.",
+        "PRO_PRICE": 49.99,
+        "SELLERID": "S001",
+        "CAT_NAME": "Clothes",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P026",
+        "PRO_NAME": "Toaster",
+        "PRO_DESCRIPTION": "4-slice stainless steel toaster.",
+        "PRO_PRICE": 39.99,
+        "SELLERID": "S004",
+        "CAT_NAME": "Home & Kitchen",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P027",
+        "PRO_NAME": "Winter Boots",
+        "PRO_DESCRIPTION": "Waterproof insulated winter boots.",
+        "PRO_PRICE": 89.99,
+        "SELLERID": "S002",
+        "CAT_NAME": "Shoes",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P028",
+        "PRO_NAME": "Sunglasses",
+        "PRO_DESCRIPTION": "Polarized sunglasses with UV protection.",
+        "PRO_PRICE": 35.99,
+        "SELLERID": "S005",
+        "CAT_NAME": "Accessories",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P029",
+        "PRO_NAME": "Cookbook",
+        "PRO_DESCRIPTION": "Healthy eating cookbook.",
+        "PRO_PRICE": 29.99,
+        "SELLERID": "S006",
+        "CAT_NAME": "Books",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P030",
+        "PRO_NAME": "Soccer Ball",
+        "PRO_DESCRIPTION": "Official size 5 soccer ball.",
+        "PRO_PRICE": 24.99,
+        "SELLERID": "S005",
+        "CAT_NAME": "Sports",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P031",
+        "PRO_NAME": "Monitor",
+        "PRO_DESCRIPTION": "27-inch 4K UHD monitor.",
+        "PRO_PRICE": 299.99,
+        "SELLERID": "S003",
+        "CAT_NAME": "Electronics",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P032",
+        "PRO_NAME": "Air Fryer",
+        "PRO_DESCRIPTION": "5.8 Quart digital air fryer.",
+        "PRO_PRICE": 119.99,
+        "SELLERID": "S004",
+        "CAT_NAME": "Home & Kitchen",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P033",
+        "PRO_NAME": "Polo Shirt",
+        "PRO_DESCRIPTION": "Men's cotton polo shirt.",
+        "PRO_PRICE": 25.99,
+        "SELLERID": "S001",
+        "CAT_NAME": "Clothes",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P034",
+        "PRO_NAME": "Action Figure",
+        "PRO_DESCRIPTION": "Collectible action figure.",
+        "PRO_PRICE": 19.99,
+        "SELLERID": "S007",
+        "CAT_NAME": "Toys",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P035",
+        "PRO_NAME": "Moisturizer",
+        "PRO_DESCRIPTION": "Daily facial moisturizer.",
+        "PRO_PRICE": 22.99,
+        "SELLERID": "S008",
+        "CAT_NAME": "Beauty",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P036",
+        "PRO_NAME": "Loafers",
+        "PRO_DESCRIPTION": "Men's suede loafers.",
+        "PRO_PRICE": 64.99,
+        "SELLERID": "S002",
+        "CAT_NAME": "Shoes",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P037",
+        "PRO_NAME": "Wrist Watch",
+        "PRO_DESCRIPTION": "Classic analog wrist watch.",
+        "PRO_PRICE": 149.99,
+        "SELLERID": "S005",
+        "CAT_NAME": "Accessories",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P038",
+        "PRO_NAME": "History Book",
+        "PRO_DESCRIPTION": "A book about world history.",
+        "PRO_PRICE": 18.99,
+        "SELLERID": "S006",
+        "CAT_NAME": "Books",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P039",
+        "PRO_NAME": "Mountain Bike",
+        "PRO_DESCRIPTION": "21-speed mountain bike.",
+        "PRO_PRICE": 249.99,
+        "SELLERID": "S005",
+        "CAT_NAME": "Sports",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P040",
+        "PRO_NAME": "Microwave Oven",
+        "PRO_DESCRIPTION": "Countertop microwave oven.",
+        "PRO_PRICE": 79.99,
+        "SELLERID": "S004",
+        "CAT_NAME": "Home & Kitchen",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P041",
+        "PRO_NAME": "Tablet",
+        "PRO_DESCRIPTION": "10-inch Android tablet.",
+        "PRO_PRICE": 199.99,
+        "SELLERID": "S003",
+        "CAT_NAME": "Electronics",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P042",
+        "PRO_NAME": "Board Game",
+        "PRO_DESCRIPTION": "Strategy board game for families.",
+        "PRO_PRICE": 39.99,
+        "SELLERID": "S007",
+        "CAT_NAME": "Toys",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P043",
+        "PRO_NAME": "Shampoo",
+        "PRO_DESCRIPTION": "Organic shampoo and conditioner set.",
+        "PRO_PRICE": 15.99,
+        "SELLERID": "S008",
+        "CAT_NAME": "Beauty",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P044",
+        "PRO_NAME": "Office Chair",
+        "PRO_DESCRIPTION": "Ergonomic mesh office chair.",
+        "PRO_PRICE": 139.99,
+        "SELLERID": "S009",
+        "CAT_NAME": "Furniture",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P045",
+        "PRO_NAME": "Sweater",
+        "PRO_DESCRIPTION": "Wool cable-knit sweater.",
+        "PRO_PRICE": 54.99,
+        "SELLERID": "S001",
+        "CAT_NAME": "Clothes",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P046",
+        "PRO_NAME": "Gaming Console",
+        "PRO_DESCRIPTION": "Next-generation gaming console.",
+        "PRO_PRICE": 499.99,
+        "SELLERID": "S003",
+        "CAT_NAME": "Electronics",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P047",
+        "PRO_NAME": "High Heels",
+        "PRO_DESCRIPTION": "Women's classic high heels.",
+        "PRO_PRICE": 75.00,
+        "SELLERID": "S002",
+        "CAT_NAME": "Shoes",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P048",
+        "PRO_NAME": "Vacuum Cleaner",
+        "PRO_DESCRIPTION": "Bagless upright vacuum cleaner.",
+        "PRO_PRICE": 159.99,
+        "SELLERID": "S004",
+        "CAT_NAME": "Home & Kitchen",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P049",
+        "PRO_NAME": "Lipstick",
+        "PRO_DESCRIPTION": "Long-lasting matte lipstick.",
+        "PRO_PRICE": 18.00,
+        "SELLERID": "S008",
+        "CAT_NAME": "Beauty",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P050",
+        "PRO_NAME": "Desk",
+        "PRO_DESCRIPTION": "Modern computer desk for home office.",
+        "PRO_PRICE": 199.99,
+        "SELLERID": "S009",
+        "CAT_NAME": "Furniture",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P051",
+        "PRO_NAME": "Lego Set",
+        "PRO_DESCRIPTION": "Large classic Lego building set.",
+        "PRO_PRICE": 59.99,
+        "SELLERID": "S007",
+        "CAT_NAME": "Toys",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P052",
+        "PRO_NAME": "External Hard Drive",
+        "PRO_DESCRIPTION": "2TB portable external hard drive.",
+        "PRO_PRICE": 79.99,
+        "SELLERID": "S003",
+        "CAT_NAME": "Electronics",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P053",
+        "PRO_NAME": "Self-Help Book",
+        "PRO_DESCRIPTION": "Book on productivity and habits.",
+        "PRO_PRICE": 16.99,
+        "SELLERID": "S006",
+        "CAT_NAME": "Books",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P054",
+        "PRO_NAME": "Tent",
+        "PRO_DESCRIPTION": "4-person dome tent for camping.",
+        "PRO_PRICE": 89.99,
+        "SELLERID": "S005",
+        "CAT_NAME": "Sports",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P055",
+        "PRO_NAME": "Belt",
+        "PRO_DESCRIPTION": "Genuine leather belt.",
+        "PRO_PRICE": 29.99,
+        "SELLERID": "S005",
+        "CAT_NAME": "Accessories",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P056",
+        "PRO_NAME": "Shorts",
+        "PRO_DESCRIPTION": "Men's cargo shorts.",
+        "PRO_PRICE": 24.99,
+        "SELLERID": "S001",
+        "CAT_NAME": "Clothes",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P057",
+        "PRO_NAME": "Bookshelf",
+        "PRO_DESCRIPTION": "5-shelf wooden bookshelf.",
+        "PRO_PRICE": 129.99,
+        "SELLERID": "S009",
+        "CAT_NAME": "Furniture",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P058",
+        "PRO_NAME": "Fitness Tracker",
+        "PRO_DESCRIPTION": "Slim fitness tracker with heart rate.",
+        "PRO_PRICE": 49.99,
+        "SELLERID": "S003",
+        "CAT_NAME": "Electronics",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P059",
+        "PRO_NAME": "Eye Shadow Palette",
+        "PRO_DESCRIPTION": "Neutral tones eye shadow palette.",
+        "PRO_PRICE": 45.00,
+        "SELLERID": "S008",
+        "CAT_NAME": "Beauty",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P060",
+        "PRO_NAME": "Electric Kettle",
+        "PRO_DESCRIPTION": "Stainless steel electric water kettle.",
+        "PRO_PRICE": 29.99,
+        "SELLERID": "S004",
+        "CAT_NAME": "Home & Kitchen",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID":"P061",
+        "PRO_NAME": "Puzzle",
+        "PRO_DESCRIPTION": "1000-piece jigsaw puzzle.",
+        "PRO_PRICE": 17.99,
+        "SELLERID": "S007",
+        "CAT_NAME": "Toys",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P062",
+        "PRO_NAME": "Running Tights",
+        "PRO_DESCRIPTION": "Men's compression running tights.",
+        "PRO_PRICE": 34.99,
+        "SELLERID": "S005",
+        "CAT_NAME": "Sports",
+        "IMAGE": "/images/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P063",
+        "PRO_NAME": "Dress Shoes",
+        "PRO_DESCRIPTION": "Men's oxford dress shoes.",
+        "PRO_PRICE": 85.00,
+        "SELLERID": "S002",
+        "CAT_NAME": "Shoes",
+        "IMAGE": "/images/product_sample.jpg"
+    }
+]
+
