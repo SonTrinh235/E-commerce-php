@@ -1,144 +1,140 @@
 <?php
 session_start();
+require_once '../../config/database.php';
+include "../../views/components/header.php";
+include "../../views/components/navbar.php";
 
-// Chặn truy cập nếu chưa login hoặc không phải seller
-if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']['ROLE'] !== 'seller') {
+if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']['role'] !== 'seller') {
     header("Location: /login.php");
     exit;
 }
 
-include "../../views/components/header.php";
-include "../../views/components/navbar.php";
-
 $seller = $_SESSION['logged_in_user'];
-$jsonPath = __DIR__ . '/../../data/products.json';
+$sellerId = $seller['id']; 
+$fromDate = date('Y-m-01');
+$toDate = date('Y-m-d');
 
-// Load products
-$products = [];
-if (file_exists($jsonPath)) {
-    $jsonData = file_get_contents($jsonPath);
-    $decoded = json_decode($jsonData, true);
-    if (is_array($decoded)) $products = $decoded;
+if (isset($_GET['from']) && isset($_GET['to'])) {
+    $fromDate = $_GET['from'];
+    $toDate = $_GET['to'];
 }
 
-// --- Handle Add / Edit / Delete Product ---
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
-    $action = $_POST['action'];
+$stats = [
+    'TOTAL_REVENUE' => 0,
+    'TOTAL_ORDERS' => 0
+];
+$error = null;
 
-    if ($action === 'add') {
-        $newProduct = [
-            'PRODUCTID' => 'P' . str_pad((count($products) + 1), 3, '0', STR_PAD_LEFT),
-            'PRO_NAME' => $_POST['name'] ?? 'New Product',
-            'PRO_DESCRIPTION' => $_POST['description'] ?? '',
-            'PRO_PRICE' => floatval($_POST['price'] ?? 0),
-            'SELLERID' => $seller['SELLERID'],
-            'CAT_NAME' => $_POST['category'] ?? 'Misc',
-            'IMAGE' => $_POST['image'] ?? '/images/product_sample.jpg'
-        ];
-        $products[] = $newProduct;
+try {
+    $sql = "CALL REVENUE_OF_ONE_SELLER(:sid, :from, :to)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':sid', $sellerId);
+    $stmt->bindParam(':from', $fromDate);
+    $stmt->bindParam(':to', $toDate);
+    $stmt->execute();
+    
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($result) {
+        $stats = $result;
     }
-    elseif ($action === 'edit' && isset($_POST['product_id'])) {
-        foreach ($products as &$p) {
-            if ($p['PRODUCTID'] === $_POST['product_id']) {
-                $p['PRO_NAME'] = $_POST['name'] ?? $p['PRO_NAME'];
-                $p['PRO_DESCRIPTION'] = $_POST['description'] ?? $p['PRO_DESCRIPTION'];
-                $p['PRO_PRICE'] = floatval($_POST['price'] ?? $p['PRO_PRICE']);
-                $p['CAT_NAME'] = $_POST['category'] ?? $p['CAT_NAME'];
-                $p['IMAGE'] = $_POST['image'] ?? $p['IMAGE'] ?? '/images/product_sample.jpg';
-                break;
-            }
-        }
-        unset($p);
-    }
-    elseif ($action === 'delete' && isset($_POST['product_id'])) {
-        $pid = $_POST['product_id'];
-        $products = array_filter($products, fn($p) => $p['PRODUCTID'] !== $pid);
-        $products = array_values($products); // Reindex
-    }
+    $stmt->closeCursor();
 
-    // Save back to JSON
-    file_put_contents($jsonPath, json_encode($products, JSON_PRETTY_PRINT));
-    // Reload products
-    $products = json_decode(file_get_contents($jsonPath), true);
+} catch (PDOException $e) {
+    $error = "Chưa thể tải thống kê. Hãy đảm bảo bạn đã chạy câu lệnh tạo thủ tục REVENUE_OF_ONE_SELLER trong MySQL.";
 }
 ?>
 
 <div class="container mt-5">
-    <h2>Seller Dashboard</h2>
-    <p>Welcome, <?= htmlspecialchars($seller['FIRSTNAME'] . ' ' . $seller['LASTNAME']) ?>!</p>
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h2>Xin chào, <?= htmlspecialchars($seller['fullname'] ?? 'Nhà bán hàng') ?>! 👋</h2>
+            <p class="text-muted">Đây là trang tổng quan tình hình kinh doanh của bạn.</p>
+        </div>
+    </div>
 
-    <!-- Add Product Form -->
-    <h3>Add New Product</h3>
-    <form method="post" class="mb-4">
-        <input type="hidden" name="action" value="add">
-        <input class="form-control mb-2" name="name" placeholder="Product Name" required>
-        <input class="form-control mb-2" name="description" placeholder="Description">
-        <input class="form-control mb-2" name="price" type="number" step="0.01" placeholder="Price" required>
-        <input class="form-control mb-2" name="category" placeholder="Category" required>
-        <input class="form-control mb-2" name="image" placeholder="Image URL (optional)">
-        <button type="submit" class="btn btn-success">Add Product</button>
-    </form>
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <form method="GET" class="row g-3 align-items-end">
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Từ ngày</label>
+                    <input type="date" class="form-control" name="from" value="<?= $fromDate ?>">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Đến ngày</label>
+                    <input type="date" class="form-control" name="to" value="<?= $toDate ?>">
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="bi bi-filter"></i> Xem thống kê
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-    <!-- Seller Products -->
-    <h3>Your Products</h3>
-    <div class="row">
-        <?php
-        $sellerProducts = array_filter($products, fn($p) => $p['SELLERID'] === $seller['SELLERID']);
-        if (empty($sellerProducts)) {
-            echo "<p>You have no products yet.</p>";
-        } else {
-            foreach ($sellerProducts as $product):
-        ?>
-            <div class="col-md-4 mb-3">
-                <div class="card p-2">
-                    <img src="<?= htmlspecialchars($product['IMAGE'] ?? '/images/product_sample.jpg') ?>" class="card-img-top mb-2" style="height:200px; object-fit:cover;">
-                    <h5><?= htmlspecialchars($product['PRO_NAME']) ?></h5>
-                    <p><?= htmlspecialchars($product['PRO_DESCRIPTION']) ?></p>
-                    <p><strong>$<?= number_format($product['PRO_PRICE'], 2) ?></strong></p>
-                    <p>Category: <?= htmlspecialchars($product['CAT_NAME']) ?></p>
-
-                    <div class="d-flex gap-2 mt-2">
-                        <!-- Edit button triggers modal -->
-                        <button class="btn btn-primary btn-sm flex-fill" data-bs-toggle="modal" data-bs-target="#editModal<?= $product['PRODUCTID'] ?>">Edit</button>
-
-                        <!-- Delete form -->
-                        <form method="post" class="flex-fill">
-                            <input type="hidden" name="action" value="delete">
-                            <input type="hidden" name="product_id" value="<?= $product['PRODUCTID'] ?>">
-                            <button type="submit" class="btn btn-danger btn-sm w-100">Delete</button>
-                        </form>
-                    </div>
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card text-white bg-success mb-3 h-100 shadow">
+                <div class="card-header border-0 fs-5">Doanh Thu</div>
+                <div class="card-body">
+                    <h2 class="card-title display-5 fw-bold">
+                        <?= number_format($stats['TOTAL_REVENUE'] ?? 0) ?> <span class="fs-4">VNĐ</span>
+                    </h2>
+                    <p class="card-text opacity-75">
+                        Tổng số tiền từ các đơn hàng <span class="badge bg-light text-success">Đã xác nhận</span>
+                    </p>
                 </div>
             </div>
+        </div>
 
-            <!-- Edit Modal -->
-            <div class="modal fade" id="editModal<?= $product['PRODUCTID'] ?>" tabindex="-1">
-                <div class="modal-dialog">
-                    <form method="post" class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Edit Product</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body">
-                            <input type="hidden" name="action" value="edit">
-                            <input type="hidden" name="product_id" value="<?= $product['PRODUCTID'] ?>">
-                            <input class="form-control mb-2" name="name" value="<?= htmlspecialchars($product['PRO_NAME']) ?>" required>
-                            <input class="form-control mb-2" name="description" value="<?= htmlspecialchars($product['PRO_DESCRIPTION']) ?>">
-                            <input class="form-control mb-2" name="price" type="number" step="0.01" value="<?= $product['PRO_PRICE'] ?>" required>
-                            <input class="form-control mb-2" name="category" value="<?= htmlspecialchars($product['CAT_NAME']) ?>" required>
-                            <input class="form-control mb-2" name="image" value="<?= htmlspecialchars($product['IMAGE'] ?? '') ?>" placeholder="Image URL (optional)">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Save changes</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        </div>
-                    </form>
+        <div class="col-md-6">
+            <div class="card text-white bg-info mb-3 h-100 shadow">
+                <div class="card-header border-0 fs-5">Đơn Hàng Thành Công</div>
+                <div class="card-body">
+                    <h2 class="card-title display-5 fw-bold">
+                        <?= number_format($stats['TOTAL_ORDERS'] ?? 0) ?>
+                    </h2>
+                    <p class="card-text opacity-75">Số lượng đơn hàng trong khoảng thời gian này.</p>
                 </div>
             </div>
+        </div>
+    </div>
+    
+    <?php if($error): ?>
+        <div class="alert alert-warning">
+            <i class="bi bi-exclamation-triangle"></i> <?= $error ?>
+        </div>
+    <?php endif; ?>
 
-        <?php endforeach; ?>
-        <?php } ?>
+    <h4 class="mb-3">Thao tác nhanh</h4>
+    <div class="row g-3">
+        <div class="col-md-6">
+            <a href="products.php" class="card text-decoration-none h-100 border-primary text-primary hover-shadow">
+                <div class="card-body text-center p-4">
+                    <i class="bi bi-box-seam" style="font-size: 2.5rem;"></i>
+                    <h5 class="mt-3">Quản lý Sản Phẩm</h5>
+                    <p class="text-muted small">Xem danh sách, tìm kiếm và xóa sản phẩm</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-6">
+            <a href="add-product.php" class="card text-decoration-none h-100 border-success text-success hover-shadow">
+                <div class="card-body text-center p-4">
+                    <i class="bi bi-plus-circle" style="font-size: 2.5rem;"></i>
+                    <h5 class="mt-3">Thêm Sản Phẩm Mới</h5>
+                    <p class="text-muted small">Đăng bán sản phẩm mới lên sàn</p>
+                </div>
+            </a>
+        </div>
     </div>
 </div>
+
+<style>
+    .hover-shadow:hover {
+        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+        transition: box-shadow 0.3s ease-in-out;
+        background-color: #f8f9fa;
+    }
+</style>
 
 <?php include "../../views/components/footer.php"; ?>

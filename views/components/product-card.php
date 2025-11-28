@@ -20,15 +20,15 @@ $id = $product['PRODUCTID'] ?? '';
             </p>
 
             <p class="card-text mb-1">
-                <strong>Category:</strong> <?= htmlspecialchars($category) ?>
+                <strong>Category:  </strong> <?= htmlspecialchars($category) ?>
             </p>
 
             <p class="card-text mb-1">
-                <strong>Price:</strong> $<?= number_format($price, 2) ?>
+                <strong>Price:  </strong><?= number_format($price) ?>
             </p>
 
             <p class="card-text mb-3">
-                <strong>Seller ID:</strong> <?= htmlspecialchars($seller) ?>
+                <strong>Seller ID:  </strong> <?= htmlspecialchars($seller) ?>
             </p>
 
             <a href="/product-detail.php?id=<?= urlencode($id) ?>" class="btn btn-primary w-100 mt-auto">

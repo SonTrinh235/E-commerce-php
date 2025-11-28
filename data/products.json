@@ -3,11 +3,10 @@
         "PRODUCTID": "P001",
         "PRO_NAME": "T-Shirt",
         "PRO_DESCRIPTION": "Comfort cotton t-shirt.",
-        "PRO_PRICE": 19.99,
+        "PRO_PRICE": 19.9,
         "SELLERID": "S001",
         "CAT_NAME": "Clothes",
-        "IMAGE": "/images/product_sample.jpg"
-
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P002",
@@ -16,7 +15,7 @@
         "PRO_PRICE": 49.99,
         "SELLERID": "S002",
         "CAT_NAME": "Shoes",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P003",
@@ -25,7 +24,7 @@
         "PRO_PRICE": 89.99,
         "SELLERID": "S003",
         "CAT_NAME": "Electronics",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P004",
@@ -34,7 +33,7 @@
         "PRO_PRICE": 899.99,
         "SELLERID": "S003",
         "CAT_NAME": "Electronics",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P005",
@@ -43,7 +42,7 @@
         "PRO_PRICE": 59.99,
         "SELLERID": "S004",
         "CAT_NAME": "Home & Kitchen",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P006",
@@ -52,7 +51,7 @@
         "PRO_PRICE": 79.99,
         "SELLERID": "S002",
         "CAT_NAME": "Shoes",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P007",
@@ -61,7 +60,7 @@
         "PRO_PRICE": 44.99,
         "SELLERID": "S001",
         "CAT_NAME": "Clothes",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P008",
@@ -70,7 +69,7 @@
         "PRO_PRICE": 129.99,
         "SELLERID": "S003",
         "CAT_NAME": "Electronics",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P009",
@@ -79,7 +78,7 @@
         "PRO_PRICE": 39.99,
         "SELLERID": "S005",
         "CAT_NAME": "Accessories",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P010",
@@ -88,7 +87,7 @@
         "PRO_PRICE": 69.99,
         "SELLERID": "S004",
         "CAT_NAME": "Home & Kitchen",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P011",
@@ -97,7 +96,7 @@
         "PRO_PRICE": 29.99,
         "SELLERID": "S001",
         "CAT_NAME": "Clothes",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P012",
@@ -106,7 +105,7 @@
         "PRO_PRICE": 24.99,
         "SELLERID": "S003",
         "CAT_NAME": "Electronics",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P013",
@@ -115,7 +114,7 @@
         "PRO_PRICE": 19.99,
         "SELLERID": "S005",
         "CAT_NAME": "Sports",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P014",
@@ -124,7 +123,7 @@
         "PRO_PRICE": 34.99,
         "SELLERID": "S004",
         "CAT_NAME": "Home & Kitchen",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P015",
@@ -133,7 +132,7 @@
         "PRO_PRICE": 29.99,
         "SELLERID": "S002",
         "CAT_NAME": "Shoes",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P016",
@@ -142,7 +141,7 @@
         "PRO_PRICE": 14.99,
         "SELLERID": "S006",
         "CAT_NAME": "Books",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P017",
@@ -151,7 +150,7 @@
         "PRO_PRICE": 99.99,
         "SELLERID": "S003",
         "CAT_NAME": "Electronics",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P018",
@@ -160,7 +159,7 @@
         "PRO_PRICE": 59.99,
         "SELLERID": "S001",
         "CAT_NAME": "Clothes",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P019",
@@ -169,7 +168,7 @@
         "PRO_PRICE": 129.99,
         "SELLERID": "S005",
         "CAT_NAME": "Sports",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P020",
@@ -178,7 +177,7 @@
         "PRO_PRICE": 149.99,
         "SELLERID": "S004",
         "CAT_NAME": "Home & Kitchen",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P021",
@@ -187,7 +186,7 @@
         "PRO_PRICE": 12.99,
         "SELLERID": "S006",
         "CAT_NAME": "Books",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P022",
@@ -196,7 +195,7 @@
         "PRO_PRICE": 49.99,
         "SELLERID": "S003",
         "CAT_NAME": "Electronics",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P023",
@@ -205,7 +204,7 @@
         "PRO_PRICE": 22.99,
         "SELLERID": "S005",
         "CAT_NAME": "Accessories",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P024",
@@ -214,7 +213,7 @@
         "PRO_PRICE": 699.99,
         "SELLERID": "S003",
         "CAT_NAME": "Electronics",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P025",
@@ -223,7 +222,7 @@
         "PRO_PRICE": 49.99,
         "SELLERID": "S001",
         "CAT_NAME": "Clothes",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P026",
@@ -232,7 +231,7 @@
         "PRO_PRICE": 39.99,
         "SELLERID": "S004",
         "CAT_NAME": "Home & Kitchen",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P027",
@@ -241,7 +240,7 @@
         "PRO_PRICE": 89.99,
         "SELLERID": "S002",
         "CAT_NAME": "Shoes",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P028",
@@ -250,7 +249,7 @@
         "PRO_PRICE": 35.99,
         "SELLERID": "S005",
         "CAT_NAME": "Accessories",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P029",
@@ -259,7 +258,7 @@
         "PRO_PRICE": 29.99,
         "SELLERID": "S006",
         "CAT_NAME": "Books",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P030",
@@ -268,7 +267,7 @@
         "PRO_PRICE": 24.99,
         "SELLERID": "S005",
         "CAT_NAME": "Sports",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P031",
@@ -277,7 +276,7 @@
         "PRO_PRICE": 299.99,
         "SELLERID": "S003",
         "CAT_NAME": "Electronics",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P032",
@@ -286,7 +285,7 @@
         "PRO_PRICE": 119.99,
         "SELLERID": "S004",
         "CAT_NAME": "Home & Kitchen",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P033",
@@ -295,7 +294,7 @@
         "PRO_PRICE": 25.99,
         "SELLERID": "S001",
         "CAT_NAME": "Clothes",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P034",
@@ -304,7 +303,7 @@
         "PRO_PRICE": 19.99,
         "SELLERID": "S007",
         "CAT_NAME": "Toys",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P035",
@@ -313,7 +312,7 @@
         "PRO_PRICE": 22.99,
         "SELLERID": "S008",
         "CAT_NAME": "Beauty",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P036",
@@ -322,7 +321,7 @@
         "PRO_PRICE": 64.99,
         "SELLERID": "S002",
         "CAT_NAME": "Shoes",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P037",
@@ -331,7 +330,7 @@
         "PRO_PRICE": 149.99,
         "SELLERID": "S005",
         "CAT_NAME": "Accessories",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P038",
@@ -340,7 +339,7 @@
         "PRO_PRICE": 18.99,
         "SELLERID": "S006",
         "CAT_NAME": "Books",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P039",
@@ -349,7 +348,7 @@
         "PRO_PRICE": 249.99,
         "SELLERID": "S005",
         "CAT_NAME": "Sports",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P040",
@@ -358,7 +357,7 @@
         "PRO_PRICE": 79.99,
         "SELLERID": "S004",
         "CAT_NAME": "Home & Kitchen",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P041",
@@ -367,7 +366,7 @@
         "PRO_PRICE": 199.99,
         "SELLERID": "S003",
         "CAT_NAME": "Electronics",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P042",
@@ -376,7 +375,7 @@
         "PRO_PRICE": 39.99,
         "SELLERID": "S007",
         "CAT_NAME": "Toys",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P043",
@@ -385,7 +384,7 @@
         "PRO_PRICE": 15.99,
         "SELLERID": "S008",
         "CAT_NAME": "Beauty",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P044",
@@ -394,7 +393,7 @@
         "PRO_PRICE": 139.99,
         "SELLERID": "S009",
         "CAT_NAME": "Furniture",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P045",
@@ -403,7 +402,7 @@
         "PRO_PRICE": 54.99,
         "SELLERID": "S001",
         "CAT_NAME": "Clothes",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P046",
@@ -412,16 +411,16 @@
         "PRO_PRICE": 499.99,
         "SELLERID": "S003",
         "CAT_NAME": "Electronics",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P047",
         "PRO_NAME": "High Heels",
         "PRO_DESCRIPTION": "Women's classic high heels.",
-        "PRO_PRICE": 75.00,
+        "PRO_PRICE": 75,
         "SELLERID": "S002",
         "CAT_NAME": "Shoes",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P048",
@@ -430,16 +429,16 @@
         "PRO_PRICE": 159.99,
         "SELLERID": "S004",
         "CAT_NAME": "Home & Kitchen",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P049",
         "PRO_NAME": "Lipstick",
         "PRO_DESCRIPTION": "Long-lasting matte lipstick.",
-        "PRO_PRICE": 18.00,
+        "PRO_PRICE": 18,
         "SELLERID": "S008",
         "CAT_NAME": "Beauty",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P050",
@@ -448,7 +447,7 @@
         "PRO_PRICE": 199.99,
         "SELLERID": "S009",
         "CAT_NAME": "Furniture",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P051",
@@ -457,7 +456,7 @@
         "PRO_PRICE": 59.99,
         "SELLERID": "S007",
         "CAT_NAME": "Toys",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P052",
@@ -466,7 +465,7 @@
         "PRO_PRICE": 79.99,
         "SELLERID": "S003",
         "CAT_NAME": "Electronics",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P053",
@@ -475,7 +474,7 @@
         "PRO_PRICE": 16.99,
         "SELLERID": "S006",
         "CAT_NAME": "Books",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P054",
@@ -484,7 +483,7 @@
         "PRO_PRICE": 89.99,
         "SELLERID": "S005",
         "CAT_NAME": "Sports",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P055",
@@ -493,7 +492,7 @@
         "PRO_PRICE": 29.99,
         "SELLERID": "S005",
         "CAT_NAME": "Accessories",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P056",
@@ -502,7 +501,7 @@
         "PRO_PRICE": 24.99,
         "SELLERID": "S001",
         "CAT_NAME": "Clothes",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P057",
@@ -511,7 +510,7 @@
         "PRO_PRICE": 129.99,
         "SELLERID": "S009",
         "CAT_NAME": "Furniture",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P058",
@@ -520,16 +519,16 @@
         "PRO_PRICE": 49.99,
         "SELLERID": "S003",
         "CAT_NAME": "Electronics",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P059",
         "PRO_NAME": "Eye Shadow Palette",
         "PRO_DESCRIPTION": "Neutral tones eye shadow palette.",
-        "PRO_PRICE": 45.00,
+        "PRO_PRICE": 45,
         "SELLERID": "S008",
         "CAT_NAME": "Beauty",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P060",
@@ -538,16 +537,16 @@
         "PRO_PRICE": 29.99,
         "SELLERID": "S004",
         "CAT_NAME": "Home & Kitchen",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
-        "PRODUCTID":"P061",
+        "PRODUCTID": "P061",
         "PRO_NAME": "Puzzle",
         "PRO_DESCRIPTION": "1000-piece jigsaw puzzle.",
         "PRO_PRICE": 17.99,
         "SELLERID": "S007",
         "CAT_NAME": "Toys",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P062",
@@ -556,16 +555,24 @@
         "PRO_PRICE": 34.99,
         "SELLERID": "S005",
         "CAT_NAME": "Sports",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
     },
     {
         "PRODUCTID": "P063",
         "PRO_NAME": "Dress Shoes",
         "PRO_DESCRIPTION": "Men's oxford dress shoes.",
-        "PRO_PRICE": 85.00,
+        "PRO_PRICE": 85,
         "SELLERID": "S002",
         "CAT_NAME": "Shoes",
-        "IMAGE": "/images/product_sample.jpg"
+        "IMAGE": "\/images\/product_sample.jpg"
+    },
+    {
+        "PRODUCTID": "P064",
+        "PRO_NAME": "Jeans",
+        "PRO_DESCRIPTION": "Classic blue denim jeans.",
+        "PRO_PRICE": 200000,
+        "SELLERID": "S001",
+        "CAT_NAME": "Clothes",
+        "IMAGE": "\/images\/product_sample.jpg"
     }
 ]
-

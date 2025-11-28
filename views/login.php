@@ -1,104 +1,132 @@
 <?php
 session_start();
+
+// 1. Kết nối Database
+// File này nằm ở public/login.php, nên dùng ../ để ra thư mục gốc lấy config
+require_once '../config/database.php'; 
 include "../views/components/header.php";
 include "../views/components/navbar.php";
 
 $errors = [];
 
-// --- Demo 2 user ---
-if (!isset($_SESSION['users'])) {
-    $_SESSION['users'] = [
-        'U001' => [
-            'USERID' => 'U001',
-            'SSN' => '123456789',
-            'USERNAME' => 'buyer01',
-            'USER_PASSWORD' => password_hash('buyer123', PASSWORD_DEFAULT),
-            'FIRSTNAME' => 'John',
-            'LASTNAME' => 'Buyer',
-            'ADDRESS' => '123 Main St',
-            'PHONE' => '0123456789',
-            'ROLE' => 'buyer'
-        ],
-        'U002' => [
-            'USERID' => 'U002',
-            'SSN' => '987654321',
-            'USERNAME' => 'seller01',
-            'USER_PASSWORD' => password_hash('seller123', PASSWORD_DEFAULT),
-            'FIRSTNAME' => 'Demo',
-            'LASTNAME' => 'Seller',
-            'ADDRESS' => '456 Market St',
-            'PHONE' => '0987654321',
-            'ROLE' => 'seller',
-            'SELLERID' => 'S001'
-        ]
-    ];
-}
-
-// --- Auto-login nếu có cookie ---
-if (isset($_COOKIE['remember_username']) && isset($_COOKIE['remember_token'])) {
-    $username = $_COOKIE['remember_username'];
-    $token = $_COOKIE['remember_token'];
-    foreach ($_SESSION['users'] as $user) {
-        if ($user['USERNAME'] === $username && hash('sha256', $user['USER_PASSWORD']) === $token) {
-            $_SESSION['logged_in_user'] = $user;
-            header("Location: " . ($user['ROLE'] === 'seller' ? "/seller/index.php" : "/shop.php"));
-            exit;
-        }
-    }
-}
-
-// --- Xử lý form login ---
+// 2. Xử lý khi người dùng ấn nút Đăng nhập
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = $_POST['username'] ?? '';
-    $password = $_POST['password'] ?? '';
-    $remember = isset($_POST['remember']);
+    $username = trim($_POST['username'] ?? '');
+    $password = trim($_POST['password'] ?? '');
 
-    $found = false;
-    foreach ($_SESSION['users'] as $user) {
-        if ($user['USERNAME'] === $username) {
-            $found = true;
-            if (!password_verify($password, $user['USER_PASSWORD'])) {
-                $errors[] = "Incorrect password.";
-            } else {
-                $_SESSION['logged_in_user'] = $user;
+    if (empty($username) || empty($password)) {
+        $errors[] = "Vui lòng nhập tên đăng nhập và mật khẩu.";
+    } else {
+        try {
+            // A. Tìm user trong bảng USERS (So khớp username & password)
+            // Lưu ý: DB của bạn đang lưu pass dạng text thường (abc3), nên so sánh trực tiếp
+            $sql = "SELECT * FROM users WHERE USERNAME = :username AND USER_PASSWORD = :password";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':username', $username);
+            $stmt->bindParam(':password', $password);
+            $stmt->execute();
 
-                // Nếu chọn nhớ đăng nhập
-                if ($remember) {
-                    setcookie('remember_username', $username, time() + 30*24*3600, "/");
-                    setcookie('remember_token', hash('sha256', $user['USER_PASSWORD']), time() + 30*24*3600, "/");
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($user) {
+                // B. User tồn tại -> Xác định Role (Seller hay Buyer?)
+                $userId = $user['USERID'];
+                $role = 'unknown'; 
+                $extraInfo = [];
+
+                // Kiểm tra bảng SELLERS
+                $stmtSeller = $conn->prepare("SELECT * FROM sellers WHERE SELLERID = :id");
+                $stmtSeller->bindParam(':id', $userId);
+                $stmtSeller->execute();
+                $sellerData = $stmtSeller->fetch(PDO::FETCH_ASSOC);
+
+                if ($sellerData) {
+                    $role = 'seller';
+                    $extraInfo = $sellerData; // Lưu tên Shop, Rating...
+                } else {
+                    // Nếu không phải Seller, kiểm tra bảng BUYERS
+                    $stmtBuyer = $conn->prepare("SELECT * FROM buyers WHERE BUYERID = :id");
+                    $stmtBuyer->bindParam(':id', $userId);
+                    $stmtBuyer->execute();
+                    $buyerData = $stmtBuyer->fetch(PDO::FETCH_ASSOC);
+
+                    if ($buyerData) {
+                        $role = 'buyer';
+                        $extraInfo = $buyerData; // Lưu Membership Level...
+                    }
                 }
 
-                header("Location: " . ($user['ROLE'] === 'seller' ? "/seller/index.php" : "/shop.php"));
-                exit;
+                // C. Lưu Session
+                $_SESSION['logged_in_user'] = [
+                    'id' => $user['USERID'],
+                    'username' => $user['USERNAME'],
+                    'fullname' => $user['FIRSTNAME'] . ' ' . $user['LASTNAME'],
+                    'role' => $role,     // Quan trọng: dùng để check quyền ở các trang khác
+                    'info' => $extraInfo 
+                ];
+
+                // D. Chuyển hướng theo Role
+                if ($role === 'seller') {
+                    header("Location: /seller/index.php"); // Vào Dashboard người bán
+                    exit;
+                } elseif ($role === 'buyer') {
+                    header("Location: /index.php");        // Vào trang chủ người mua
+                    exit;
+                } else {
+                    // Trường hợp user có trong bảng USERS nhưng không có trong SELLERS lẫn BUYERS
+                    $errors[] = "Tài khoản chưa được kích hoạt vai trò người bán hoặc người mua.";
+                    session_unset();
+                    session_destroy();
+                }
+
+            } else {
+                $errors[] = "Tên đăng nhập hoặc mật khẩu không đúng.";
             }
+        } catch (PDOException $e) {
+            $errors[] = "Lỗi hệ thống: " . $e->getMessage();
         }
     }
-    if (!$found) $errors[] = "User not found.";
 }
 ?>
 
 <div class="container mt-5" style="max-width: 450px;">
-    <h2 class="text-center mb-4">Login</h2>
+    <div class="card shadow-sm">
+        <div class="card-body p-4">
+            <h2 class="text-center mb-4">Đăng Nhập</h2>
 
-    <?php if ($errors): ?>
-        <div class="alert alert-danger">
-            <ul><?php foreach($errors as $err) echo "<li>$err</li>"; ?></ul>
+            <?php if ($errors): ?>
+                <div class="alert alert-danger">
+                    <ul class="mb-0 ps-3">
+                        <?php foreach($errors as $err) echo "<li>$err</li>"; ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
+
+            <form method="post">
+                <div class="mb-3">
+                    <label class="form-label">Tên đăng nhập</label>
+                    <input class="form-control" type="text" name="username" placeholder="VD: ABC3" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Mật khẩu</label>
+                    <input class="form-control" type="password" name="password" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Đăng Nhập</button>
+            </form>
+
+            <p class="text-center mt-3 mb-0">
+                Chưa có tài khoản? <a href="/register.php">Đăng ký ngay</a>
+            </p>
         </div>
-    <?php endif; ?>
-
-    <form method="post">
-        <input class="form-control mb-3" type="text" name="username" placeholder="Username" required>
-        <input class="form-control mb-3" type="password" name="password" placeholder="Password" required>
-        <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" name="remember" id="remember">
-            <label class="form-check-label" for="remember">Remember me</label>
-        </div>
-        <button type="submit" class="btn btn-primary w-100">Login</button>
-    </form>
-
-    <p class="text-center mt-3">
-        No account? <a href="/register.php">Register</a>
-    </p>
+    </div>
+    
+    <div class="alert alert-info mt-4">
+        <strong>Tài khoản mẫu (Test):</strong><br>
+        Seller: <code>ABC3</code> / <code>abc3</code><br>
+        Buyer: <code>ABC1</code> / <code>abc1</code>
+    </div>
 </div>
 
 <?php include "../views/components/footer.php"; ?>
