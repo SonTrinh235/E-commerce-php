@@ -4,93 +4,179 @@ require_once '../../config/database.php';
 include "../../views/components/header.php";
 include "../../views/components/navbar.php";
 
+// 1. Kiểm tra quyền Seller
 if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']['role'] !== 'seller') {
-    header("Location: /login.php");
+    echo "<script>window.location.href='/login.php';</script>";
     exit;
 }
 
-$seller = $_SESSION['logged_in_user'];
-$sellerId = $seller['id'];
+$sellerId = $_SESSION['logged_in_user']['id'];
 $message = "";
 
+// 2. Xử lý Xóa (Gọi Procedure)
 if (isset($_POST['action']) && $_POST['action'] === 'delete') {
-    $id_to_delete = $_POST['product_id'];
-    
+    $id = $_POST['product_id'];
     try {
-        $sql = "CALL DELETE_PRODUCTS(:id)"; 
+        // Gọi thủ tục DELETE_PRODUCTS đã tạo trong MySQL
+        $sql = "CALL DELETE_PRODUCTS(:id)";
         $stmt = $conn->prepare($sql);
-        $stmt->bindParam(':id', $id_to_delete);
+        $stmt->bindParam(':id', $id);
         $stmt->execute();
-        
-        $message = "<div class='alert alert-success'>Đã xóa sản phẩm thành công!</div>";
+        $message = "<div class='alert alert-success alert-dismissible fade show'>
+                        <i class='bi bi-check-circle me-2'></i> Xóa sản phẩm thành công!
+                        <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
+                    </div>";
     } catch (PDOException $e) {
-        $message = "<div class='alert alert-danger'>Lỗi: " . $e->getMessage() . "</div>";
+        $message = "<div class='alert alert-danger alert-dismissible fade show'>
+                        <i class='bi bi-exclamation-triangle me-2'></i> Lỗi: " . $e->getMessage() . "
+                        <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
+                    </div>";
     }
 }
 
-$sellerProducts = [];
+// 3. Lấy danh sách sản phẩm
 $keyword = $_GET['keyword'] ?? '';
-
 try {
-    $sql = "SELECT * FROM PRODUCTS WHERE SELLERID = :sid";
+    $sql = "SELECT p.PRODUCTID, p.PRO_NAME, p.PRO_PRICE, p.CAT_NAME, p.IMAGE, 
+                   u.PRO_QUANTITY, u.PRO_STATUS
+            FROM products p
+            LEFT JOIN updates u ON p.PRODUCTID = u.PRODUCTID
+            WHERE p.SELLERID = :sid";
     
     if ($keyword) {
-        $sql .= " AND PRO_NAME LIKE :kw";
+        $sql .= " AND p.PRO_NAME LIKE :kw";
     }
     
+    // Sắp xếp mới nhất lên đầu
+    $sql .= " ORDER BY p.PRODUCTID DESC";
+
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':sid', $sellerId);
     if ($keyword) {
-        $kw_param = "%$keyword%";
-        $stmt->bindParam(':kw', $kw_param);
+        $kw = "%$keyword%";
+        $stmt->bindParam(':kw', $kw);
     }
     $stmt->execute();
-    $sellerProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
+    $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 } catch (PDOException $e) {
-    $message = "<div class='alert alert-danger'>Lỗi: " . $e->getMessage() . "</div>";
+    $message = "<div class='alert alert-danger'>Lỗi tải dữ liệu: " . $e->getMessage() . "</div>";
 }
 ?>
 
 <div class="container mt-5">
-    <h2>Quản lý sản phẩm (<?= htmlspecialchars($sellerId) ?>)</h2>
-    <?= $message ?>
-    
-    <div class="d-flex justify-content-between mb-3">
-        <form method="GET" class="d-flex">
-            <input type="text" name="keyword" class="form-control me-2" placeholder="Tìm tên sản phẩm..." value="<?= htmlspecialchars($keyword) ?>">
-            <button class="btn btn-primary">Tìm</button>
-        </form>
-        <a href="add-product.php" class="btn btn-success">Thêm mới</a>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold text-primary mb-0">Quản lý sản phẩm</h2>
+            <p class="text-muted small mb-0">Danh sách các sản phẩm đang bán của bạn</p>
+        </div>
+        <a href="add-product.php" class="btn btn-success shadow-sm">
+            <i class="bi bi-plus-lg me-1"></i> Thêm mới
+        </a>
     </div>
 
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Mã SP</th>
-                <th>Tên sản phẩm</th>
-                <th>Danh mục</th>
-                <th>Giá</th>
-                <th>Hành động</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach($sellerProducts as $p): ?>
-            <tr>
-                <td><?= htmlspecialchars($p['PRODUCTID']) ?></td>
-                <td><?= htmlspecialchars($p['PRO_NAME']) ?></td>
-                <td><?= htmlspecialchars($p['CAT_NAME']) ?></td>
-                <td><?= number_format($p['PRO_PRICE']) ?> VNĐ</td>
-                <td>
-                    <form method="POST" onsubmit="return confirm('Bạn chắc chắn muốn xóa?');" style="display:inline;">
-                        <input type="hidden" name="action" value="delete">
-                        <input type="hidden" name="product_id" value="<?= $p['PRODUCTID'] ?>">
-                        <button class="btn btn-sm btn-danger">Xóa</button>
-                    </form>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+    <?= $message ?>
+
+    <div class="card mb-4 border-0 shadow-sm bg-light">
+        <div class="card-body p-3">
+            <form method="GET" class="d-flex gap-2">
+                <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
+                    <input type="text" name="keyword" class="form-control border-start-0 ps-0" 
+                           placeholder="Tìm kiếm theo tên sản phẩm..." 
+                           value="<?= htmlspecialchars($keyword) ?>">
+                </div>
+                <button type="submit" class="btn btn-primary px-4">Tìm</button>
+                <?php if($keyword): ?>
+                    <a href="products.php" class="btn btn-outline-secondary">Xóa lọc</a>
+                <?php endif; ?>
+            </form>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light">
+                        <tr>
+                            <th class="ps-4">Sản phẩm</th>
+                            <th>Danh mục</th>
+                            <th>Giá bán</th>
+                            <th class="text-center">Kho</th>
+                            <th class="text-center">Trạng thái</th>
+                            <th class="text-center pe-4" style="width: 120px;">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (!empty($products)): ?>
+                            <?php foreach ($products as $p): ?>
+                                <tr>
+                                    <td class="ps-4">
+                                        <div class="d-flex align-items-center">
+                                            <img src="<?= htmlspecialchars($p['IMAGE'] ?? '/images/product_sample.jpg') ?>" 
+                                                 class="rounded border me-3"
+                                                 width="48" height="48" 
+                                                 style="object-fit:cover" 
+                                                 alt="img"
+                                                 onerror="this.src='/images/product_sample.jpg'">
+                                            <div>
+                                                <div class="fw-bold text-dark"><?= htmlspecialchars($p['PRO_NAME']) ?></div>
+                                                <small class="text-muted">ID: <?= htmlspecialchars($p['PRODUCTID']) ?></small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-light text-dark border">
+                                            <?= htmlspecialchars($p['CAT_NAME'] ?? 'Khác') ?>
+                                        </span>
+                                    </td>
+                                    <td class="fw-bold text-primary">
+                                        <?= number_format($p['PRO_PRICE']) ?> ₫
+                                    </td>
+                                    <td class="text-center">
+                                        <?= htmlspecialchars($p['PRO_QUANTITY'] ?? 0) ?>
+                                    </td>
+                                    <td class="text-center">
+                                        <?php if (($p['PRO_QUANTITY'] ?? 0) > 0): ?>
+                                            <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1">Còn hàng</span>
+                                        <?php else: ?>
+                                            <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-2 py-1">Hết hàng</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    
+                                    <td class="text-center pe-4">
+                                        <div class="d-flex justify-content-center gap-2">
+                                            <a href="edit-product.php?id=<?= $p['PRODUCTID'] ?>" 
+                                               class="btn btn-sm btn-outline-primary" 
+                                               title="Chỉnh sửa">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </a>
+                                            
+                                            <form method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không? Hành động này không thể hoàn tác.');">
+                                                <input type="hidden" name="action" value="delete">
+                                                <input type="hidden" name="product_id" value="<?= $p['PRODUCTID'] ?>">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Xóa">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="6" class="text-center py-5 text-muted">
+                                    <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+                                    Không tìm thấy sản phẩm nào.
+                                </td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
+
 <?php include "../../views/components/footer.php"; ?>

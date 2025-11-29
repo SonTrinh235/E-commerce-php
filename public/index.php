@@ -6,7 +6,8 @@ include "../views/components/navbar.php";
 
 $products = [];
 try {
-    $sql = "SELECT p.*, c.CAT_NAME, s.SHOP_NAME 
+    $sql = "SELECT p.PRODUCTID, p.PRO_NAME, p.PRO_PRICE, p.IMAGE, 
+                   c.CAT_NAME, s.SHOP_NAME 
             FROM PRODUCTS p
             LEFT JOIN CATEGORIES c ON p.CAT_NAME = c.CAT_NAME  
             LEFT JOIN SELLERS s ON p.SELLERID = s.SELLERID
@@ -26,7 +27,7 @@ try {
     
     <div class="p-5 text-center bg-light rounded-3 mb-5 shadow-sm border">
         <h1 class="text-primary fw-bold display-5">Chào mừng đến với E-commerce-php</h1>
-        <p class="lead text-muted">Bài này là demo của lớp DataBase - Assignment2</p>
+        <p class="lead text-muted">Nền tảng thương mại điện tử "cây nhà lá vườn" xịn nhất!</p>
         <a href="shop.php" class="btn btn-primary btn-lg mt-3 px-5 rounded-pill">
             <i class="bi bi-cart-fill"></i> Mua sắm ngay
         </a>
@@ -42,10 +43,13 @@ try {
                 <div class="col-md-3 col-sm-6">
                     <div class="card h-100 shadow-sm border-0 product-card">
                         <div class="position-relative">
-                            <img src="/images/product_sample.jpg" class="card-img-top" 
-                                 alt="<?= htmlspecialchars($product['PRO_NAME']) ?>" 
-                                 style="height: 200px; object-fit: cover; background-color: #eee;"
-                                 onerror="this.src='https://via.placeholder.com/300x200?text=No+Image'">
+                            <a href="/product-detail.php?id=<?= $product['PRODUCTID'] ?>">
+                                <img src="<?= htmlspecialchars($product['IMAGE'] ?? '/images/product_sample.jpg') ?>" 
+                                     class="card-img-top" 
+                                     alt="<?= htmlspecialchars($product['PRO_NAME']) ?>" 
+                                     style="height: 200px; object-fit: cover; background-color: #eee;"
+                                     onerror="this.src='/images/product_sample.jpg'">
+                            </a>
                         </div>
 
                         <div class="card-body d-flex flex-column">
@@ -88,15 +92,4 @@ try {
     </div>
 
 </div>
-
-<style>
-    .product-card {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .product-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
-    }
-</style>
-
 <?php include "../views/components/footer.php"; ?>
