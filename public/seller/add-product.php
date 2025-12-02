@@ -90,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <form method="post">
                 <div class="mb-3">
                     <label class="form-label fw-bold">Tên sản phẩm</label>
-                    <input type="text" class="form-control" name="name" required placeholder="Ví dụ: iPhone 15">
+                    <input type="text" class="form-control" name="name" required placeholder="Example: Ferrari F8 Tributo">
                 </div>
 
                 <div class="mb-3">

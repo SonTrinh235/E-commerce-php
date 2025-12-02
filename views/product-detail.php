@@ -16,9 +16,7 @@ $category = $product['CAT_NAME'] ?? 'Khác';
 $shopName = $product['SHOP_NAME'] ?? 'Shop ẩn danh';
 $sellerId = $product['SELLERID'] ?? '';
 $id       = $product['PRODUCTID'];
-
-// Ảnh mặc định
-$image    = '/images/product_sample.jpg'; 
+$image    = $product['IMAGE'] ?? '/images/product_sample.jpg'; 
 ?>
 
 <style>

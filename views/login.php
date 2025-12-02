@@ -105,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <form method="post">
                 <div class="mb-3">
                     <label class="form-label">Tên đăng nhập</label>
-                    <input class="form-control" type="text" name="username" placeholder="VD: ABC3" required>
+                    <input class="form-control" type="text" name="username" placeholder="" required>
                 </div>
                 
                 <div class="mb-3">
@@ -123,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
     
     <div class="alert alert-info mt-4">
-        <strong>Tài khoản mẫu (Test):</strong><br>
+        <strong>Test:</strong><br>
         Seller: <code>ABC3</code> / <code>abc3</code><br>
         Buyer: <code>ABC1</code> / <code>abc1</code>
     </div>
