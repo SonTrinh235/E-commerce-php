@@ -1,4 +1,4 @@
-<div class="container mt-5 mb-5">
+<div class="container mt-5 mb-5" id="cart-container">
     <h2 class="mb-4 fw-bold">
         <i class="bi bi-cart3 me-2"></i>Giỏ hàng của bạn 
         <span class="badge bg-primary rounded-pill fs-6 align-middle"><?= count($cartItems) ?></span>
@@ -7,7 +7,7 @@
     <?php if (!empty($cartItems)): ?>
         <div class="row">
             <div class="col-lg-8 mb-4">
-                <form method="post" action="/cart.php">
+                <form method="post" action="/cart.php" id="cart-form">
                     <input type="hidden" name="action" value="update">
                     
                     <div class="card shadow-sm border-0">
@@ -29,7 +29,7 @@
                                                 <div class="d-flex align-items-center p-2">
                                                     <img src="<?= htmlspecialchars($item['image'] ?? '/images/product_sample.jpg') ?>" 
                                                          alt="<?= htmlspecialchars($item['name']) ?>" 
-                                                         class="rounded border"
+                                                         class="rounded border bg-light"
                                                          style="width: 70px; height: 70px; object-fit: cover; margin-right: 15px;"
                                                          onerror="this.src='/images/product_sample.jpg'">
                                                     
@@ -48,7 +48,7 @@
                                             <td class="text-muted"><?= number_format($item['price']) ?> ₫</td>
                                             <td>
                                                 <input type="number" name="qty[<?= $item['id'] ?>]" 
-                                                       class="form-control form-control-sm text-center fw-bold border-secondary" 
+                                                       class="form-control form-control-sm text-center fw-bold border-secondary qty-input" 
                                                        value="<?= $item['qty'] ?>" min="1" max="99" style="width: 70px;">
                                             </td>
                                             <td class="text-end fw-bold text-primary fs-5">
@@ -63,16 +63,17 @@
                             <a href="/shop.php" class="btn btn-outline-secondary btn-sm">
                                 <i class="bi bi-arrow-left me-1"></i> Tiếp tục mua sắm
                             </a>
-                            <button type="submit" class="btn btn-warning text-dark fw-bold btn-sm shadow-sm">
+                            
+                            <!-- <button type="submit" class="btn btn-warning text-dark fw-bold btn-sm shadow-sm hover-scale" id="btn-update">
                                 <i class="bi bi-arrow-clockwise me-1"></i> Cập nhật giỏ hàng
-                            </button>
+                            </button> -->
                         </div>
                     </div>
                 </form>
             </div>
 
             <div class="col-lg-4">
-                <div class="card shadow-sm border-0 bg-light">
+                <div class="card shadow-sm border-0 bg-light sticky-top" style="top: 20px; z-index: 10;">
                     <div class="card-header bg-white fw-bold py-3 border-bottom-0">
                         <i class="bi bi-receipt me-2"></i>Tóm tắt đơn hàng
                     </div>
@@ -106,7 +107,7 @@
     <?php else: ?>
         <div class="text-center py-5">
             <div class="mb-4">
-                <img src="https://cdn-icons-png.flaticon.com/512/11329/11329060.png" alt="Empty Cart" style="width: 150px; opacity: 0.5;">
+                <i class="bi bi-cart-x display-1 text-muted opacity-25"></i>
             </div>
             <h3 class="fw-bold text-secondary">Giỏ hàng của bạn đang trống!</h3>
             <p class="text-muted mb-4">Có vẻ như bạn chưa thêm sản phẩm nào vào giỏ hàng.</p>
@@ -119,6 +120,22 @@
 
 <style>
     .hover-underline:hover { text-decoration: underline !important; }
-    .hover-scale { transition: transform 0.2s; }
-    .hover-scale:hover { transform: translateY(-2px); }
+    .hover-scale { transition: transform 0.2s ease; }
+    .hover-scale:hover { transform: translateY(-3px); }
+    .updating { opacity: 0.5; pointer-events: none; transition: opacity 0.2s; }
 </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const qtyInputs = document.querySelectorAll('.qty-input');
+        const cartForm = document.getElementById('cart-form');
+        const container = document.getElementById('cart-container');
+
+        qtyInputs.forEach(input => {
+            input.addEventListener('change', function() {
+                container.classList.add('updating');
+                cartForm.submit();
+            });
+        });
+    });
+</script>

@@ -2,71 +2,101 @@
 session_start();
 require_once '../config/database.php'; 
 
-if (isset($_GET['action']) && $_GET['action'] === 'add' && isset($_GET['id'])) {
-    $id = $_GET['id'];
-    try {
-        $stmt = $conn->prepare("SELECT * FROM PRODUCTS WHERE PRODUCTID = :id");
-        $stmt->execute([':id' => $id]);
-        $product = $stmt->fetch(PDO::FETCH_ASSOC);
-        
-        if ($product) {
-            $name = $product['PRO_NAME'];
-            $price = (float)$product['PRO_PRICE'];
-            $image = !empty($product['IMAGE']) ? $product['IMAGE'] : '/images/product_sample.jpg'; 
-            $qty = 1;
-
-            if (isset($_SESSION['cart'][$id])) {
-                $_SESSION['cart'][$id]['qty'] += $qty;
-            } else {
-                $_SESSION['cart'][$id] = [
-                    'id' => $id,
-                    'name' => $name,
-                    'price' => $price,
-                    'image' => $image,
-                    'qty' => $qty
-                ];
-            }
-        }
-    } catch (PDOException $e) {} 
-    $referer = $_SERVER['HTTP_REFERER'] ?? '/shop.php';
-    header("Location: $referer");
+$user = $_SESSION['logged_in_user'] ?? null;
+if (!$user || $user['role'] !== 'buyer') {
+    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+        echo json_encode(['status' => 'error', 'message' => 'Vui lòng đăng nhập!']);
+        exit;
+    }
+    header("Location: /login.php");
     exit;
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add') {
-    $id = $_POST['id'];
-    $name = $_POST['name'];
-    $price = (float)$_POST['price'];
-    $image = $_POST['image'];
-    $qty = (int)$_POST['qty'];
+$buyerId = $user['id']; 
 
-    if (isset($_SESSION['cart'][$id])) {
-        $_SESSION['cart'][$id]['qty'] += $qty;
-    } else {
-        $_SESSION['cart'][$id] = [
-            'id' => $id,
-            'name' => $name,
-            'price' => $price,
-            'image' => $image,
-            'qty' => $qty
-        ];
+function getCurrentCartId($conn, $buyerId) {
+    $stmt = $conn->prepare("SELECT CARTID FROM CARTS WHERE BUYERID = :bid LIMIT 1");
+    $stmt->execute([':bid' => $buyerId]);
+    return $stmt->fetchColumn(); 
+}
+
+function calculateCartTotal($conn, $cartId) {
+    $stmt = $conn->prepare("SELECT COUNT(*) FROM STORES WHERE CARTID = :cid");
+    $stmt->execute([':cid' => $cartId]);
+    return (int)$stmt->fetchColumn();
+}
+
+$cartId = getCurrentCartId($conn, $buyerId);
+if ((isset($_POST['action']) && $_POST['action'] === 'add') || (isset($_GET['action']) && $_GET['action'] === 'add')) {
+    $productId = $_POST['id'] ?? $_GET['id'] ?? '';
+    $qty = (int)($_POST['qty'] ?? 1);
+
+    if ($productId) {
+        try {
+            $conn->beginTransaction();
+
+            if (!$cartId) {
+                $cartId = 'CART_' . time() . rand(100, 999);
+                if(strlen($cartId) > 10) $cartId = substr($cartId, 0, 10);
+                
+                $sqlCart = "INSERT INTO CARTS (CARTID, CART_TIME, CART_DATE, CART_QUANTITY, BUYERID) 
+                            VALUES (:cid, CURTIME(), CURDATE(), :qty, :bid)";
+                $conn->prepare($sqlCart)->execute([':cid' => $cartId, ':qty' => $qty, ':bid' => $buyerId]);
+            }
+
+            $sqlStore = "INSERT INTO STORES (CARTID, PRODUCTID) VALUES (:cid, :pid)";
+            $stmtStore = $conn->prepare($sqlStore);
+            for ($i = 0; $i < $qty; $i++) {
+                $stmtStore->execute([':cid' => $cartId, ':pid' => $productId]);
+            }
+
+            if ($cartId) {
+                $newTotal = calculateCartTotal($conn, $cartId);
+                $conn->prepare("UPDATE CARTS SET CART_QUANTITY = ? WHERE CARTID = ?")->execute([$newTotal, $cartId]);
+            }
+
+            $conn->commit();
+        } catch (PDOException $e) {
+            $conn->rollBack();
+            die("Lỗi thêm giỏ hàng: " . $e->getMessage());
+        }
     }
     
-    header("Location: /cart.php");
+    $referer = $_SERVER['HTTP_REFERER'] ?? '/shop.php';
+    if (strpos($referer, 'cart.php') !== false) header("Location: /cart.php");
+    else header("Location: $referer");
     exit;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update') {
-    if (isset($_POST['qty'])) {
-        foreach ($_POST['qty'] as $id => $qty) {
-            if (isset($_SESSION['cart'][$id])) {
-                $qty = (int)$qty;
-                if ($qty > 0) {
-                    $_SESSION['cart'][$id]['qty'] = $qty;
-                } else {
-                    unset($_SESSION['cart'][$id]);
+    if (isset($_POST['qty']) && is_array($_POST['qty'])) {
+        try {
+            $conn->beginTransaction();
+            foreach ($_POST['qty'] as $pid => $q) {
+                $q = (int)$q;
+                
+                $conn->prepare("DELETE FROM STORES WHERE CARTID = :cid AND PRODUCTID = :pid")
+                     ->execute([':cid' => $cartId, ':pid' => $pid]);
+
+                if ($q > 0) {
+                    $stmtIns = $conn->prepare("INSERT INTO STORES (CARTID, PRODUCTID) VALUES (:cid, :pid)");
+                    for ($i = 0; $i < $q; $i++) {
+                        $stmtIns->execute([':cid' => $cartId, ':pid' => $pid]);
+                    }
                 }
             }
+
+            $newTotal = calculateCartTotal($conn, $cartId);
+            if ($newTotal > 0) {
+                $conn->prepare("UPDATE CARTS SET CART_QUANTITY = ? WHERE CARTID = ?")->execute([$newTotal, $cartId]);
+            } else {
+                $conn->prepare("DELETE FROM CARTS WHERE CARTID = ?")->execute([$cartId]);
+            }
+
+            $conn->commit();
+        } catch (PDOException $e) {
+            $conn->rollBack();
+            die("Lỗi update: " . $e->getMessage());
         }
     }
     header("Location: /cart.php");
@@ -74,21 +104,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 }
 
 if (isset($_GET['remove'])) {
-    $removeId = $_GET['remove'];
-    if (isset($_SESSION['cart'][$removeId])) {
-        unset($_SESSION['cart'][$removeId]);
+    $pid = $_GET['remove'];
+    try {
+        $conn->beginTransaction();
+        
+        $conn->prepare("DELETE FROM STORES WHERE CARTID = :cid AND PRODUCTID = :pid")
+             ->execute([':cid' => $cartId, ':pid' => $pid]);
+
+        $newTotal = calculateCartTotal($conn, $cartId);
+        if ($newTotal > 0) {
+            $conn->prepare("UPDATE CARTS SET CART_QUANTITY = ? WHERE CARTID = ?")->execute([$newTotal, $cartId]);
+        } else {
+            $conn->prepare("DELETE FROM CARTS WHERE CARTID = ?")->execute([$cartId]);
+        }
+
+        $conn->commit();
+    } catch (PDOException $e) {
+        $conn->rollBack();
+        die("Lỗi xóa: " . $e->getMessage());
     }
     header("Location: /cart.php");
     exit;
 }
 
-$cartItems = $_SESSION['cart'] ?? [];
+$cartItems = [];
 $totalPrice = 0;
-$totalQuantity = 0;
 
-foreach ($cartItems as $item) {
-    $totalPrice += $item['price'] * $item['qty'];
-    $totalQuantity += $item['qty'];
+if ($cartId) { 
+    try {
+        $sql = "SELECT p.PRODUCTID, p.PRO_NAME, p.PRO_PRICE, p.IMAGE, 
+                       COUNT(*) as QUANTITY
+                FROM STORES s
+                JOIN PRODUCTS p ON s.PRODUCTID = p.PRODUCTID
+                WHERE s.CARTID = :cid
+                GROUP BY p.PRODUCTID, p.PRO_NAME, p.PRO_PRICE, p.IMAGE";
+        
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([':cid' => $cartId]);
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($rows as $row) {
+            $cartItems[] = [
+                'id' => $row['PRODUCTID'],
+                'name' => $row['PRO_NAME'],
+                'price' => (float)$row['PRO_PRICE'],
+                'image' => $row['IMAGE'],
+                'qty' => (int)$row['QUANTITY']
+            ];
+            $totalPrice += (float)$row['PRO_PRICE'] * (int)$row['QUANTITY'];
+        }
+    } catch (PDOException $e) {
+        echo "Lỗi hiển thị: " . $e->getMessage();
+    }
 }
 
 include '../views/components/header.php';

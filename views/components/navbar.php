@@ -39,7 +39,7 @@ $role = $user['role'] ?? '';
                 
                 <ul class="dropdown-menu dropdown-menu-end border-0 shadow" aria-labelledby="userDropdown">
                     <li><a class="dropdown-item" href="#"><i class="bi bi-person-vcard me-2"></i>Hồ sơ</a></li>
-                    
+                    <li><a class="dropdown-item" href="/my-orders.php"><i class="bi bi-clock-history me-2"></i>Lịch sử mua hàng</a></li>
                     <?php if ($role === 'seller'): ?>
                         <li><a class="dropdown-item" href="/seller/add-product.php"><i class="bi bi-plus-circle me-2"></i>Thêm sản phẩm</a></li>
                     <?php endif; ?>
