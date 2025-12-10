@@ -11,6 +11,7 @@ if (!$product) {
 $name     = $product['PRO_NAME'] ?? 'No name';
 $desc     = $product['PRO_DESCRIPTION'] ?? 'Chưa có mô tả';
 $price    = $product['PRO_PRICE'] ?? 0;
+$quantity = isset($product['PRO_QUANTITY']) ? (int)$product['PRO_QUANTITY'] : 0;
 $category = $product['CAT_NAME'] ?? 'Khác';
 $shopName = $product['SHOP_NAME'] ?? 'Shop ẩn danh';
 $sellerId = $product['SELLERID'] ?? '';
@@ -18,6 +19,7 @@ $id       = $product['PRODUCTID'];
 $image    = $product['IMAGE'] ?? '/images/product_sample.jpg';
 $avgRating = isset($product['AVG_RATING']) ? (float)$product['AVG_RATING'] : 0;
 $currentUser = $_SESSION['logged_in_user'] ?? null;
+$inStock = ($quantity > 0);
 ?>
 
 <style>
@@ -25,25 +27,36 @@ $currentUser = $_SESSION['logged_in_user'] ?? null;
     .meta-badge { background-color: #f8f9fa; padding: 5px 12px; border-radius: 20px; font-size: 0.9rem; color: #555; border: 1px solid #ddd; margin-right: 10px; display: inline-flex; align-items: center; }
     .detail-price { font-size: 2rem; font-weight: bold; color: #0d6efd; margin: 15px 0; }
     .detail-desc { font-size: 1rem; line-height: 1.6; color: #444; background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #eee; margin-bottom: 25px; }
-        .star-rating-input i {
+    .star-rating-input i {
         font-size: 2rem;
         cursor: pointer;
         color: #ddd; 
-        transition: color 0.2s;
+        transition: color 0.2s, transform 0.2s;
     }
     .star-rating-input i.active, 
     .star-rating-input i.hover {
         color: #ffc107; 
+    }
+    .out-of-stock-overlay { position: relative; }
+    .out-of-stock-badge {
+        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        background: rgba(0,0,0,0.6); color: #fff; padding: 10px 20px;
+        font-size: 1.5rem; border-radius: 5px; font-weight: bold; text-transform: uppercase;
+        pointer-events: none;
     }
 </style>
 
 <div class="container mt-5 mb-5">
     <div class="row">
         <div class="col-md-5 mb-4">
-            <div class="detail-image-container">
-                <img src="<?= htmlspecialchars($image) ?>" class="detail-img" 
+            <div class="detail-image-container out-of-stock-overlay">
+                <img src="<?= htmlspecialchars($image) ?>" class="detail-img <?= !$inStock ? 'opacity-50' : '' ?>" 
                      alt="<?= htmlspecialchars($name) ?>"
                      onerror="this.src='https://via.placeholder.com/500x500?text=No+Image'">
+                
+                <?php if (!$inStock): ?>
+                    <div class="out-of-stock-badge">Hết Hàng</div>
+                <?php endif; ?>
             </div>
         </div>
 
@@ -69,6 +82,13 @@ $currentUser = $_SESSION['logged_in_user'] ?? null;
             <div class="mb-4">
                 <span class="meta-badge"><i class="bi bi-tag-fill me-1 text-primary"></i> <?= htmlspecialchars($category) ?></span>
                 <span class="meta-badge"><i class="bi bi-shop me-1 text-success"></i> <?= htmlspecialchars($shopName) ?></span>
+                <span class="meta-badge">
+                    <?php if($inStock): ?>
+                        <i class="bi bi-box-seam me-1 text-success"></i> Kho: <strong><?= $quantity ?></strong>
+                    <?php else: ?>
+                        <i class="bi bi-x-circle me-1 text-danger"></i> Hết hàng
+                    <?php endif; ?>
+                </span>
                 <span class="meta-badge"><i class="bi bi-upc-scan me-1"></i> ID: <?= htmlspecialchars($id) ?></span>
             </div>
 
@@ -79,23 +99,33 @@ $currentUser = $_SESSION['logged_in_user'] ?? null;
             <div class="mb-2 fw-bold text-secondary">Mô tả sản phẩm:</div>
             <div class="detail-desc"><?= nl2br(htmlspecialchars($desc)) ?></div>
 
-            <form method="post" action="/cart.php">
-                <input type="hidden" name="action" value="add">
-                <input type="hidden" name="id" value="<?= htmlspecialchars($id) ?>">
-                <input type="hidden" name="name" value="<?= htmlspecialchars($name) ?>">
-                <input type="hidden" name="price" value="<?= $price ?>">
-                <input type="hidden" name="image" value="<?= htmlspecialchars($image) ?>">
-                
-                <div class="d-flex align-items-center gap-3 mb-4 p-3 bg-light rounded">
-                    <label class="fw-bold">Số lượng:</label>
-                    <input type="number" name="qty" value="1" min="1" max="99" class="form-control text-center" style="width: 80px;">
-                </div>
+            <?php if ($inStock): ?>
+                <form method="post" action="/cart.php">
+                    <input type="hidden" name="action" value="add">
+                    <input type="hidden" name="id" value="<?= htmlspecialchars($id) ?>">
+                    <input type="hidden" name="name" value="<?= htmlspecialchars($name) ?>">
+                    <input type="hidden" name="price" value="<?= $price ?>">
+                    <input type="hidden" name="image" value="<?= htmlspecialchars($image) ?>">
+                    
+                    <div class="d-flex align-items-center gap-3 mb-4 p-3 bg-light rounded">
+                        <label class="fw-bold">Số lượng:</label>
+                        <input type="number" name="qty" value="1" min="1" max="<?= $quantity ?>" class="form-control text-center" style="width: 80px;">
+                        <span class="text-muted small">(Có sẵn: <?= $quantity ?>)</span>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg py-3 shadow-sm">
+                            <i class="bi bi-cart-plus-fill me-2"></i> THÊM VÀO GIỎ HÀNG
+                        </button>
+                    </div>
+                </form>
+            <?php else: ?>
                 <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-primary btn-lg py-3 shadow-sm">
-                        <i class="bi bi-cart-plus-fill me-2"></i> THÊM VÀO GIỎ HÀNG
+                    <button class="btn btn-secondary btn-lg py-3 disabled" disabled>
+                        <i class="bi bi-cart-x me-2"></i> TẠM HẾT HÀNG
                     </button>
                 </div>
-            </form>
+            <?php endif; ?>
         </div>
     </div>
 
@@ -108,22 +138,21 @@ $currentUser = $_SESSION['logged_in_user'] ?? null;
                 <?php if (!$hasReviewed): ?>
                     <form method="POST" action="" id="reviewForm" onsubmit="return validateRating()">
                         <input type="hidden" name="action" value="add_review">
-                        
                         <input type="hidden" name="rating" id="ratingInput" value="0">
 
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Bạn chấm mấy sao?</label>
+                            <label class="form-label fw-bold">Đánh giá sản phẩm</label>
                             <div class="star-rating-input d-flex gap-2" id="starContainer">
-                                <i class="bi bi-star-fill" data-value="1"></i>
-                                <i class="bi bi-star-fill" data-value="2"></i>
-                                <i class="bi bi-star-fill" data-value="3"></i>
-                                <i class="bi bi-star-fill" data-value="4"></i>
-                                <i class="bi bi-star-fill" data-value="5"></i>
+                                <i class="bi bi-star" data-value="1"></i>
+                                <i class="bi bi-star" data-value="2"></i>
+                                <i class="bi bi-star" data-value="3"></i>
+                                <i class="bi bi-star" data-value="4"></i>
+                                <i class="bi bi-star" data-value="5"></i>
                             </div>
                             <div id="ratingError" class="text-danger small mt-2 d-none">
-                                <i class="bi bi-exclamation-circle me-1"></i> Vui lòng chọn số sao .
+                                <i class="bi bi-exclamation-circle me-1"></i> Vui lòng chọn số sao.
                             </div>
-                            <div id="ratingText" class="fw-bold text-warning mt-2"></div>
+                            <div id="ratingText" class="fw-bold text-warning mt-2" style="height: 24px;"></div>
                         </div>
 
                         <div class="mb-3">
@@ -154,7 +183,7 @@ $currentUser = $_SESSION['logged_in_user'] ?? null;
                 <div class="alert alert-secondary d-flex align-items-center mb-0">
                     <i class="bi bi-lock-fill fs-4 me-3"></i>
                     <div>
-                        Vui lòng <a href="/login.php" class="fw-bold text-decoration-underline">Đăng nhập</a> tài khoản để đánh giá.
+                        Vui lòng <a href="/login.php" class="fw-bold text-decoration-underline">Đăng nhập</a> tài khoản Buyer để đánh giá.
                     </div>
                 </div>
             <?php endif; ?>
@@ -175,10 +204,10 @@ $currentUser = $_SESSION['logged_in_user'] ?? null;
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <div class="d-flex align-items-center">
                                     <div class="bg-light rounded-circle d-flex align-items-center justify-content-center me-2 text-secondary fw-bold shadow-sm" style="width: 40px; height: 40px;">
-                                        <?= substr($rv['LASTNAME'], 0, 1) ?>
+                                        <?= substr($rv['LASTNAME'] ?? 'U', 0, 1) ?>
                                     </div>
                                     <div>
-                                        <h6 class="mb-0 fw-bold"><?= htmlspecialchars($rv['FIRSTNAME'] . ' ' . $rv['LASTNAME']) ?></h6>
+                                        <h6 class="mb-0 fw-bold"><?= htmlspecialchars(($rv['FIRSTNAME'] ?? '') . ' ' . ($rv['LASTNAME'] ?? 'Ẩn danh')) ?></h6>
                                         <div class="text-warning small">
                                             <?php for($i=1; $i<=5; $i++): 
                                                 if($i <= $rv['REV_RATING']): echo '<i class="bi bi-star-fill"></i>';
@@ -209,14 +238,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const stars = document.querySelectorAll('.star-rating-input i');
     const ratingInput = document.getElementById('ratingInput');
     const ratingText = document.getElementById('ratingText');
-    const textMap = {
-        1: 'Rất tệ',
-        2: 'Tệ',
-        3: 'Bình thường',
-        4: 'Tốt',
-        5: 'Tuyệt vời'
-    };
-
+    const textMap = { 1: 'Rất tệ', 2: 'Tệ', 3: 'Bình thường', 4: 'Tốt', 5: 'Tuyệt vời' };
     let selectedValue = 0;
 
     stars.forEach(star => {
@@ -234,9 +256,7 @@ document.addEventListener('DOMContentLoaded', function() {
         star.addEventListener('click', function() {
             selectedValue = this.getAttribute('data-value');
             ratingInput.value = selectedValue;
-            
             document.getElementById('ratingError').classList.add('d-none');
-            
             this.style.transform = "scale(1.2)";
             setTimeout(() => this.style.transform = "scale(1)", 200);
         });
